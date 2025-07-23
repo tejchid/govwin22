@@ -16,14 +16,14 @@ SCOPE = "read"
 AUTH_URL = "https://services.govwin.com/neo-ws/oauth/token"
 SEARCH_URL = "https://services.govwin.com/neo-ws/opportunities"
 
-st.title("Deal Pilot - GovWin Opportunities Scoring Dashboard")
+st.title("Govwinzy - GovWin Opportunities Scoring Dashboard")
 
 # sidepanel with ruckus dog
 try:
     st.sidebar.image("ruckus_battle_card.png", use_container_width=True)
 except:
     st.sidebar.markdown("🐶")
-st.sidebar.markdown("<div style='text-align:center; font-size:2em;'><b>Deal Pilot</b></div>", unsafe_allow_html=True)
+st.sidebar.markdown("<div style='text-align:center; font-size:2em;'><b>Govwinzy</b></div>", unsafe_allow_html=True)
 
 # User first enters keywords to search
 user_input = st.text_input("Enter keywords (comma separated):", "switch, access point, wireless, wi-fi")
