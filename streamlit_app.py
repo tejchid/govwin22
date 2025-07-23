@@ -83,6 +83,10 @@ try:
         agency = opp.get("agencyName", "")
         location = opp.get("placeOfPerformance", {}).get("location", "")
         date_posted = opp.get("publicationDate", "")
+        
+        # Extract URL from the opportunity data
+        url = opp.get("sourceURL", "")
+        
         response_date_raw = opp.get("responseDate", "")
         if isinstance(response_date_raw, dict) and "value" in response_date_raw:
             try:
@@ -94,8 +98,11 @@ try:
                 response_date = datetime.fromisoformat(response_date_raw.split(".")[0]).strftime("%Y-%m-%d %H:%M")
             except Exception:
                 response_date = str(response_date_raw)
+        
+        # Basic keyword scoring (fallback)
         text_to_search = f"{title} {description} {smart_tags}".lower()
         score = sum(kw.lower() in text_to_search for kw in keywords)
+        
         if status.upper() != "AWARDED":
             row = {
                 "Title": title,
@@ -103,6 +110,7 @@ try:
                 "Tags": smart_tags,
                 "Status": status,
                 "Score": score,
+                "URL": url,
                 "Response Date": response_date,
                 "Agency": agency,
                 "Location": location,
@@ -115,7 +123,7 @@ try:
 
     st.subheader(f"Keyword-Matched Non-Awarded Opportunities ({len(rows)})")
 
-    cols = ["Title", "Description", "Tags", "Status", "Score", "Response Date", "Agency", "Location", "Date Posted"]
+    cols = ["Title", "Description", "Tags", "Status", "Score", "URL", "Response Date", "Agency", "Location", "Date Posted"]
     df = pd.DataFrame(rows)[cols]
 
     # if score > 0
